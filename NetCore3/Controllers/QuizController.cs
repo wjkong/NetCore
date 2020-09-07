@@ -30,6 +30,7 @@ namespace NetCore3.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            int k = 3;
         }
 
         // PUT api/<QuizController>/5

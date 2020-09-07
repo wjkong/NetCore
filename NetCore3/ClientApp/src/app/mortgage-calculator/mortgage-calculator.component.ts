@@ -46,7 +46,8 @@ export class MortgageCalculatorComponent implements OnInit {
     const headers = { 'content-type': 'application/json' }
 
     this.http.post<InstallPayment[]>(this.baseUrl + 'api/mortgagecalculator', JSON.stringify(paras), { 'headers': headers }).subscribe(result => {
-    
+
+      console.info("Success Calculate");
       this.showDetail = true;
 
       this.payments = result;

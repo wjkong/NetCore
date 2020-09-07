@@ -47,6 +47,7 @@ namespace NetCore3.Controllers
         {
             var monthlyPayment = decimal.Zero;
 
+
             if (frequency == 28)
                frequency = 26;
             else if (frequency == 56)
