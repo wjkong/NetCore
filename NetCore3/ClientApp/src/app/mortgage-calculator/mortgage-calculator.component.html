@@ -1,0 +1,67 @@
+<div class=wrapper>
+  <div class="jumbotron">
+    <div id="divPaymentAmt" class="alert alert-success" style="display:none"></div>
+    <div class="form-group row" style="padding-bottom:10px">
+      <label class="control-label col-sm-3 required" for="txtMortgageAmt">Mortgage Amount</label>
+      <div class="col-sm-9">
+        <input type=text id="txtMortgageAmt" class="form-control required" maxlength="12" android:maxLength="12" (blur)="calculate()" autofocus [(ngModel)]="principal" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="control-label col-sm-3 required" for="txtInterestRate">Interest Rate</label>
+      <div class="col-sm-9">
+        <input type=text id="txtInterestRate" class="form-control required" maxlength=5 android:maxLength="6" [(ngModel)]="rate" (blur)="calculate()" />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="control-label col-sm-3 required" for="ddlPaymentFrequency">Payment Frequency</label>
+      <div class="col-sm-9">
+        <select id="ddlPaymentFrequency" class="form-control required" [(ngModel)]="frequency">
+          <option value="12">Monthly</option>
+          <option value="24">Semi-Monthly</option>
+          <option value="26">Bi-weekly</option>
+          <option value="52">Weekly</option>
+          <!--<option value="28">Accelerated Bi-Weekly</option>
+          <option value="56">Accelerated Weekly</option>-->
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="control-label col-sm-3 required" for="ddlAmortizationPeriod">AmortizationPeriod</label>
+      <div class="col-sm-9">
+        <select class="form-control required" [(ngModel)]="amortization" id="ddlAmortizationPeriod" (change)="calculate()">
+          <option *ngFor="let year of yearArray">{{year}}</option>
+        </select>
+      </div>
+    </div>
+    <p>   </p>
+    <div class="form-group row">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="button" class="btn btn-primary" id=btnCalculate (click)="calculate()">Calculate</button>
+      </div>
+    </div>
+    <div id="detail" *ngIf="showDetail">
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <th>Payment Frequency</th>
+            <th>Payment</th>
+            <th class="hidden-xs">Monthly Payment</th>
+            <th>Total Payment</th>
+            <th class="hidden-xs">Cost of Borrow</th>
+            <th class="hidden-xs">Save Money</th>
+          </tr>
+          <tr *ngFor="let payment of payments" [ngClass]="{'success' : payment.frequency == frequency}">
+            <td>{{ payment.freq }}</td>
+            <td>{{ payment.installPayment | currency:"CAD":"symbol-narrow" }}</td>
+            <td class="hidden-xs">{{ payment.monthlyPayment | currency:"CAD":"symbol-narrow"}}</td>
+            <td>{{ payment.totalPayment | currency:"CAD":"symbol-narrow"}}</td>
+            <td class="hidden-xs">{{ payment.totalCostOfBorrow | currency:"CAD":"symbol-narrow"}}</td>
+            <td class="hidden-xs">{{ payment.amountSave | currency:"CAD":"symbol-narrow"}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
