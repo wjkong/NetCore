@@ -16,7 +16,7 @@ namespace NetCore3
 
         public string Summary { get; set; }
 
-        public string Summarydd { get; set; }
+       
     }
 
     [JsonObject(MemberSerialization.OptOut)]

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace NetCore3.Controllers
 {
@@ -11,6 +12,13 @@ namespace NetCore3.Controllers
     [ApiController]
     public class MortgageCalculatorController : ControllerBase
     {
+        private readonly ILogger<MortgageCalculatorController> _logger;
+
+        public MortgageCalculatorController(ILogger<MortgageCalculatorController> logger)
+        {
+            _logger = logger;
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] MortgageParameters mortgageParameters)
         {
@@ -37,8 +45,12 @@ namespace NetCore3.Controllers
                         totalMonthlyCostOfBorrow = payments[i].TotalCostOfBorrow;
 
                     payments[i].AmountSave = totalMonthlyCostOfBorrow - payments[i].TotalCostOfBorrow;
+
+                    _logger.LogInformation(payments[i].InstallPayment.ToString());
                 }
             }
+
+            
 
             return new JsonResult(payments);
         }
@@ -54,6 +66,7 @@ namespace NetCore3.Controllers
                 frequency = 52;
 
             monthlyPayment = installPayment * frequency / 12;
+            monthlyPayment = Math.Truncate(100 * monthlyPayment) / 100;
 
             return monthlyPayment;
         }
@@ -63,7 +76,8 @@ namespace NetCore3.Controllers
             var costOfBorrow = decimal.Zero;
 
             costOfBorrow = totalPayment - principal;
-           
+            costOfBorrow = Math.Truncate(100 * costOfBorrow) / 100;
+
             return costOfBorrow;
         }
 
@@ -77,7 +91,7 @@ namespace NetCore3.Controllers
                 frequency = 52;
 
             totalPayment = installPayment * amortization * frequency;
-
+            totalPayment = Math.Truncate(100 * totalPayment) / 100;
             return totalPayment;
         }
 
@@ -107,6 +121,7 @@ namespace NetCore3.Controllers
             }
 
             paymentPerPeriod += extraPaymentPerPeriod;
+            paymentPerPeriod = Math.Truncate(100 * paymentPerPeriod) / 100;
 
             return paymentPerPeriod;
         }
