@@ -51,7 +51,7 @@ namespace NetCore3.Controllers
             }
 
             
-            // Hello world!
+
             return new JsonResult(payments);
         }
 
