@@ -30,7 +30,6 @@ namespace NetCore3.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
-            // Testing Round 2
             
         }
 
