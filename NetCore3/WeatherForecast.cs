@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
 using System;
+using Newtonsoft.Json;
 
 namespace NetCore3
 {
@@ -16,13 +16,13 @@ namespace NetCore3
 
         public string Summary { get; set; }
 
-       
+
     }
 
     [JsonObject(MemberSerialization.OptOut)]
     public class MortgageParameters
     {
-       
+
         public decimal Principal { get; set; }
 
         public decimal Rate { get; set; }

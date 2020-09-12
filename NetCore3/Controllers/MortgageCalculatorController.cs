@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace NetCore3.Controllers
@@ -13,15 +10,41 @@ namespace NetCore3.Controllers
     public class MortgageCalculatorController : ControllerBase
     {
         private readonly ILogger<MortgageCalculatorController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public MortgageCalculatorController(ILogger<MortgageCalculatorController> logger)
+        public MortgageCalculatorController(ILogger<MortgageCalculatorController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] MortgageParameters mortgageParameters)
         {
+            //string conn = _configuration.GetConnectionString("KongSolution");
+
+            ////string myDb1CString = _configuration.GetValue<string>("dddd");
+
+            //SqlConnection con = new SqlConnection(conn);
+
+
+            //try
+            //{
+            //    SqlCommand cmd = new SqlCommand(@"INSERT INTO Customer (id, LastName, FirstName, Email) VALUES (1, 'Kong', 'W', 'daf');", con);
+            //    cmd.CommandType = CommandType.Text;
+
+            //    con.Open();
+            //    cmd.ExecuteNonQuery();
+            //    con.Close();
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (con.State == ConnectionState.Open)
+            //    {
+            //        con.Close();
+            //    }
+            //}
+
             Payment[] payments = new Payment[4];
 
             if (mortgageParameters.Frequency > 0 && mortgageParameters.Amortization > 0 && mortgageParameters.Principal > 0)
@@ -50,7 +73,7 @@ namespace NetCore3.Controllers
                 }
             }
 
-            
+
 
             return new JsonResult(payments);
         }
@@ -61,7 +84,7 @@ namespace NetCore3.Controllers
 
 
             if (frequency == 28)
-               frequency = 26;
+                frequency = 26;
             else if (frequency == 56)
                 frequency = 52;
 
